@@ -1,0 +1,13 @@
+<!-- Sidebar Overlay -->
+<div
+  class="sidebar-overlay"
+  [class.active]="sidebarService.isOpen()"
+  (click)="sidebarService.close()">
+</div>
+
+<div class="dashboard-container" [class.sidebar-open]="sidebarService.isOpen()">
+  <app-dashboard-header />
+  <app-kpi-cards />
+  <app-dashboard-charts />
+  <app-users-table />
+</div>

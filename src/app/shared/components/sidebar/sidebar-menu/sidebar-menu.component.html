@@ -1,0 +1,42 @@
+
+<div class="menu-section">
+  <div class="menu-label">MAIN MENU</div>
+  <nav class="sidebar-menu">
+    <a
+    routerLink="/dashboard"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="menu-item active"
+    >
+      <div class="menu-icon"><i class="pi pi-home"></i></div>
+      <span class="menu-text">Dashboard</span>
+    </a>
+    <a
+    routerLink="/statistics"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="menu-item"
+    >
+      <div class="menu-icon"><i class="pi pi-chart-line"></i></div>
+      <span class="menu-text">Statistics</span>
+    </a>
+    <a
+    routerLink="/users"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="menu-item"
+    >
+      <div class="menu-icon"><i class="pi pi-users"></i></div>
+      <span class="menu-text">Users</span>
+    </a>
+    <a
+    routerLink="/analytics"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="menu-item"
+    >
+      <div class="menu-icon"><i class="pi pi-chart-bar"></i></div>
+      <span class="menu-text">Analytics</span>
+    </a>
+  </nav>
+</div>

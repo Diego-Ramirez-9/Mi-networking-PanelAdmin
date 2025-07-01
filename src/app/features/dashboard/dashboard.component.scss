@@ -1,0 +1,104 @@
+@import '../../shared/styles/variables';
+
+// =============================================================================
+// DASHBOARD COMPONENT STYLES
+// =============================================================================
+.dashboard-container {
+  margin-left: $sidebar-width;
+  padding: 1rem;
+  background: #F8FAFC;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+
+  &.sidebar-collapsed {
+    margin-left: $sidebar-collapsed-width;
+  }
+
+  @media (max-width: $mobile-breakpoint) {
+    margin-left: 0;
+    padding: 0.5rem;
+    width: 100vw;
+    max-width: 100vw;
+
+    &.sidebar-open {
+      margin-left: 0;
+    }
+  }
+}
+
+// =============================================================================
+// MOBILE OVERLAY (duplicado del sidebar para este componente)
+// =============================================================================
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: $overlay-z-index;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+
+  &.active {
+    display: block;
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  @media (max-width: $mobile-breakpoint) {
+    display: block;
+  }
+
+  &:not(.active) {
+    pointer-events: none;
+  }
+}
+
+// =============================================================================
+// ENHANCED RESPONSIVE ADJUSTMENTS
+// =============================================================================
+.dashboard-container {
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: margin-left 0.3s ease;
+}
+
+// Eliminar scrollbars innecesarios
+html, body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+// =============================================================================
+// DASHBOARD CONTAINER STYLES (movido desde styles.scss)
+// =============================================================================
+.dashboard-container {
+  margin-left: $sidebar-width;
+  padding: 1rem;
+  background: #F8FAFC;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  &.sidebar-collapsed {
+    margin-left: $sidebar-collapsed-width;
+  }
+
+  @media (max-width: $mobile-breakpoint) {
+    margin-left: 0;
+    padding: 0.5rem;
+    width: 100vw;
+    max-width: 100vw;
+
+    &.sidebar-open {
+      margin-left: 0;
+    }
+  }
+}

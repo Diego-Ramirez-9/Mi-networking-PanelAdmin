@@ -1,0 +1,190 @@
+<section class="users-section">
+  <div class="users-header">
+    <div class="users-title">
+      <h2>Users</h2>
+      <p>Manage and view all registered users</p>
+    </div>
+    <div class="users-actions">
+      <div class="search-container">
+        <i class="pi pi-search"></i>
+        <input type="text" placeholder="Search users..." />
+      </div>
+      <div class="buttons-row">
+        <p-button
+          label="Filter"
+          icon="pi pi-filter"
+          styleClass="filter-button">
+        </p-button>
+        <p-button
+          label="Add User"
+          icon="pi pi-user-plus"
+          styleClass="add-button">
+        </p-button>
+        <p-button
+          label="Export"
+          icon="pi pi-download"
+          [outlined]="true"
+          styleClass="export-button">
+        </p-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Desktop Table View -->
+  <div class="users-table desktop-view">
+    <div class="table-header">
+      <div class="col-user">User</div>
+      <div class="col-contact">Contact Information</div>
+      <div class="col-modification">Last Modification</div>
+      <div class="col-status">Status</div>
+      <div class="col-registration">Registration Date</div>
+      <div class="col-actions">Actions</div>
+    </div>
+
+    <div class="table-body">
+      <div class="table-row" *ngFor="let user of users; let i = index">
+        <div class="col-user">
+          <p-avatar
+            [image]="user.avatar"
+            shape="circle"
+            size="normal">
+          </p-avatar>
+          <div class="user-info">
+            <div class="user-name">{{ user.name }}</div>
+            <div class="user-id">{{ user.id }}</div>
+          </div>
+        </div>
+        <div class="col-contact">
+          <div class="contact-email">{{ user.email }}</div>
+          <div class="contact-phone">{{ user.phone }}</div>
+        </div>
+        <div class="col-modification">{{ user.lastModification }}</div>
+        <div class="col-status">
+          <span class="status-badge" [ngClass]="user.status.toLowerCase()">
+            <i class="pi pi-circle-fill"></i>
+            {{ user.status }}
+          </span>
+        </div>
+        <div class="col-registration">{{ user.registrationDate }}</div>
+        <div class="col-actions">
+          <p-button
+            icon="pi pi-ellipsis-h"
+            [text]="true"
+            styleClass="action-button"
+            (click)="op.toggle($event)"
+            #actionBtn>
+          </p-button>
+
+          <!-- Cambio clave: agregar appendTo="body" para que el overlay se renderice en el body -->
+          <p-overlayPanel #op styleClass="user-actions-menu" appendTo="body">
+            <div class="actions-menu-header">
+              <span class="menu-title">Acciones para {{ user.name }}</span>
+              <button class="close-btn" (click)="op.hide()">
+                <i class="pi pi-times"></i>
+              </button>
+            </div>
+            <div class="actions-menu-content">
+              <button class="action-item update-action" (click)="updateUser(user); op.hide()">
+                <i class="pi pi-pencil"></i>
+                <span>Actualizar</span>
+              </button>
+              <button class="action-item delete-action" (click)="deleteUser(user); op.hide()">
+                <i class="pi pi-trash"></i>
+                <span>Eliminar</span>
+              </button>
+              <button class="action-item view-action" (click)="viewSheet(user); op.hide()">
+                <i class="pi pi-eye"></i>
+                <span>Ver Hoja</span>
+              </button>
+              <button class="action-item deactivate-action" (click)="deactivateSheet(user); op.hide()">
+                <i class="pi pi-ban"></i>
+                <span>Desactivar Hoja</span>
+              </button>
+            </div>
+          </p-overlayPanel>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Cards View -->
+  <div class="users-cards mobile-view">
+    <div class="user-card" *ngFor="let user of users; let i = index">
+      <div class="card-header">
+        <div class="user-main-info">
+          <p-avatar
+            [image]="user.avatar"
+            shape="circle"
+            size="large">
+          </p-avatar>
+          <div class="user-details">
+            <h3 class="user-name">{{ user.name }}</h3>
+            <span class="user-id">{{ user.id }}</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <span class="status-badge" [ngClass]="user.status.toLowerCase()">
+            <i class="pi pi-circle-fill"></i>
+            {{ user.status }}
+          </span>
+          <p-button
+            icon="pi pi-ellipsis-h"
+            [text]="true"
+            styleClass="action-button"
+            (click)="mobileOp.toggle($event)"
+            #mobileActionBtn>
+          </p-button>
+
+          <!-- Cambio clave: agregar appendTo="body" para que el overlay se renderice en el body -->
+          <p-overlayPanel #mobileOp styleClass="user-actions-menu mobile-menu" appendTo="body">
+            <div class="actions-menu-header">
+              <span class="menu-title">Acciones para {{ user.name }}</span>
+              <button class="close-btn" (click)="mobileOp.hide()">
+                <i class="pi pi-times"></i>
+              </button>
+            </div>
+            <div class="actions-menu-content">
+              <button class="action-item update-action" (click)="updateUser(user); mobileOp.hide()">
+                <i class="pi pi-pencil"></i>
+                <span>Actualizar</span>
+              </button>
+              <button class="action-item delete-action" (click)="deleteUser(user); mobileOp.hide()">
+                <i class="pi pi-trash"></i>
+                <span>Eliminar</span>
+              </button>
+              <button class="action-item view-action" (click)="viewSheet(user); mobileOp.hide()">
+                <i class="pi pi-eye"></i>
+                <span>Ver Hoja</span>
+              </button>
+              <button class="action-item deactivate-action" (click)="deactivateSheet(user); mobileOp.hide()">
+                <i class="pi pi-ban"></i>
+                <span>Desactivar Hoja</span>
+              </button>
+            </div>
+          </p-overlayPanel>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Email</label>
+            <span class="value">{{ user.email }}</span>
+          </div>
+          <div class="info-item">
+            <label>Phone</label>
+            <span class="value">{{ user.phone }}</span>
+          </div>
+          <div class="info-item">
+            <label>Last Modified</label>
+            <span class="value">{{ user.lastModification }}</span>
+          </div>
+          <div class="info-item">
+            <label>Registration Date</label>
+            <span class="value">{{ user.registrationDate }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

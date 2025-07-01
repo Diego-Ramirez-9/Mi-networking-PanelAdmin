@@ -1,0 +1,159 @@
+@import '../../../shared/styles/variables';
+
+// =============================================================================
+// DASHBOARD CHARTS STYLES
+// =============================================================================
+.charts-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+
+  @media (max-width: $mobile-breakpoint) {
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+  }
+
+  .chart-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1.25rem;
+    border: 1px solid #E5E7EB;
+
+    @media (max-width: $mobile-breakpoint) {
+      padding: 1rem;
+      border-radius: 16px;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1F2937;
+        margin: 0;
+
+        @media (max-width: $mobile-breakpoint) {
+          font-size: 0.9375rem;
+        }
+      }
+    }
+
+    .chart-placeholder {
+      height: 180px;
+      background: #F9FAFB;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @media (max-width: $mobile-breakpoint) {
+        height: 160px;
+      }
+
+      .chart-content {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: #6B7280;
+        font-size: 0.875rem;
+        font-weight: 500;
+
+        i {
+          font-size: 1.125rem;
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ESTILOS PARA BOTONES DE PRIMENG EN LOS GRÁFICOS
+// =============================================================================
+:host ::ng-deep {
+  .chart-button {
+    .p-button {
+      background: $primary-dark !important;
+      border-color: $primary-dark !important;
+      color: white !important;
+      border-radius: 6px !important;
+      font-size: 0.75rem !important;
+      padding: 0.375rem 0.625rem !important;
+    }
+  }
+}
+
+// =============================================================================
+// CHARTS SECTION STYLES COMPLETOS (movido desde styles.scss)
+// =============================================================================
+.charts-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+
+  @media (max-width: $mobile-breakpoint) {
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+  }
+
+  .chart-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1.25rem;
+    border: 1px solid #E5E7EB;
+
+    @media (max-width: $mobile-breakpoint) {
+      padding: 1rem;
+      border-radius: 16px;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1F2937;
+        margin: 0;
+
+        @media (max-width: $mobile-breakpoint) {
+          font-size: 0.9375rem;
+        }
+      }
+    }
+
+    .chart-placeholder {
+      height: 180px;
+      background: #F9FAFB;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @media (max-width: $mobile-breakpoint) {
+        height: 160px;
+      }
+
+      .chart-content {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: #6B7280;
+        font-size: 0.875rem;
+        font-weight: 500;
+
+        i {
+          font-size: 1.125rem;
+        }
+      }
+    }
+  }
+}

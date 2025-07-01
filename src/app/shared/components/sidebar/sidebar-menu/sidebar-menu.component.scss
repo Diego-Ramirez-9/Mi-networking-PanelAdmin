@@ -1,0 +1,103 @@
+@import '../../../styles/variables';
+
+// =============================================================================
+// SIDEBAR MENU STYLES
+// =============================================================================
+.menu-section {
+  .menu-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    transition: opacity 0.3s ease;
+  }
+
+  .sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+
+      .menu-icon {
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        i {
+          font-size: 1rem;
+        }
+      }
+
+      .menu-text {
+        font-size: 0.9rem;
+        transition: opacity 0.3s ease;
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      &.active {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// Estilos cuando el sidebar está colapsado
+:host-context(.sidebar.collapsed) .menu-section {
+  .menu-label {
+    display: none;
+  }
+
+  .sidebar-menu {
+    .menu-item {
+      justify-content: center;
+      padding: 0.75rem;
+
+      .menu-text {
+        display: none;
+      }
+    }
+  }
+}
+
+// Responsive - En móvil mostrar siempre el texto
+@media (max-width: $mobile-breakpoint) {
+  :host-context(.sidebar.collapsed) .menu-section {
+    .menu-label {
+      display: block;
+      opacity: 1;
+    }
+
+    .sidebar-menu {
+      .menu-item {
+        justify-content: flex-start;
+        padding: 0.75rem 1rem;
+
+        .menu-text {
+          display: block;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

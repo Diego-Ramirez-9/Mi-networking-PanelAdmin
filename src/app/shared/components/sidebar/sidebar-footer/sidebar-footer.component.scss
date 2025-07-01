@@ -1,0 +1,139 @@
+@import '../../../styles/variables';
+
+// =============================================================================
+// SIDEBAR FOOTER STYLES
+// =============================================================================
+.sidebar-footer {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  .footer-menu {
+    margin-bottom: 1.5rem;
+
+    .footer-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      margin-bottom: 0.25rem;
+      cursor: pointer;
+
+      .footer-icon {
+        width: 16px;
+        height: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        i {
+          font-size: 0.875rem;
+        }
+      }
+
+      .footer-text {
+        font-size: 0.875rem;
+        transition: opacity 0.3s ease;
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.9);
+      }
+    }
+  }
+
+  .user-profile {
+    .profile-content {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      .avatar-container {
+        flex-shrink: 0;
+
+        // Estilos para PrimeNG Avatar
+        ::ng-deep .p-avatar {
+          width: 40px !important;
+          height: 40px !important;
+        }
+      }
+
+      .user-info {
+        flex: 1;
+        transition: opacity 0.3s ease;
+
+        .user-name {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: white;
+          margin-bottom: 0.125rem;
+          line-height: 1.2;
+        }
+
+        .user-role {
+          font-size: 0.75rem;
+          color: rgba(255, 255, 255, 0.6);
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+
+// Estilos cuando el sidebar está colapsado
+:host-context(.sidebar.collapsed) .sidebar-footer {
+  .footer-menu {
+    .footer-item {
+      justify-content: center;
+      padding: 0.5rem;
+
+      .footer-text {
+        display: none;
+      }
+    }
+  }
+
+  .user-profile {
+    .profile-content {
+      justify-content: center;
+
+      .user-info {
+        display: none;
+      }
+    }
+  }
+}
+
+// Responsive - En móvil mostrar siempre el texto
+@media (max-width: $mobile-breakpoint) {
+  :host-context(.sidebar.collapsed) .sidebar-footer {
+    .footer-menu {
+      .footer-item {
+        justify-content: flex-start;
+        padding: 0.5rem 1rem;
+
+        .footer-text {
+          display: block;
+          opacity: 1;
+        }
+      }
+    }
+
+    .user-profile {
+      .profile-content {
+        justify-content: flex-start;
+
+        .user-info {
+          display: block;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

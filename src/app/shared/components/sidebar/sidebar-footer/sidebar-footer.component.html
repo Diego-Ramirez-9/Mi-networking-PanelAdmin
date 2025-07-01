@@ -1,0 +1,23 @@
+<div class="sidebar-footer">
+  <div class="footer-menu">
+    <a routerLink="/settings" class="footer-item">
+      <div class="footer-icon"><i class="pi pi-cog"></i></div>
+      <span class="footer-text">Settings</span>
+    </a>
+    <a (click)="logout()" class="footer-item">
+      <div class="footer-icon"><i class="pi pi-sign-out"></i></div>
+      <span class="footer-text">Log Out</span>
+    </a>
+  </div>
+  <div class="user-profile">
+    <div class="profile-content">
+      <div class="avatar-container">
+        <p-avatar image="https://i.pravatar.cc/48?img=1" shape="circle" size="large"></p-avatar>
+      </div>
+      <div class="user-info">
+        <div class="user-name">Mario Hernandez</div>
+        <div class="user-role">Administrator</div>
+      </div>
+    </div>
+  </div>
+</div>

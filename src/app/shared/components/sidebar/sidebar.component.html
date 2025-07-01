@@ -1,0 +1,19 @@
+<aside class="sidebar" [class.sidebar-open]="sidebarService.isOpen()">
+  <app-sidebar-header />
+  <!-- Contenido Principal del Sidebar -->
+  <div class="sidebar-content">
+    <div class="menu-section">
+      <app-sidebar-menu />
+    </div>
+  </div>
+
+  <!-- Footer del Sidebar -->
+  <app-sidebar-footer />
+</aside>
+
+<!-- Overlay para móvil -->
+<div
+  class="sidebar-overlay"
+  [class.active]="sidebarService.isOpen()"
+  (click)="sidebarService.close()">
+</div>
