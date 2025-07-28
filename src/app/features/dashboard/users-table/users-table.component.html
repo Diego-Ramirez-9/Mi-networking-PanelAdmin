@@ -7,7 +7,11 @@
     <div class="users-actions">
       <div class="search-container">
         <i class="pi pi-search"></i>
-        <input type="text" placeholder="Search users..." />
+        <input
+          type="text"
+          placeholder="Search users..."
+          (input)="onSearch($any($event.target).value)"
+        />
       </div>
       <div class="buttons-row">
         <p-button
@@ -18,7 +22,8 @@
         <p-button
           label="Add User"
           icon="pi pi-user-plus"
-          styleClass="add-button">
+          styleClass="add-button"
+          (click)="openNewUser()">
         </p-button>
         <p-button
           label="Export"
@@ -29,6 +34,264 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal para crear/editar usuario -->
+  <p-dialog
+    [(visible)]="displayAddDialog"
+    [modal]="true"
+    [closable]="false"
+    [draggable]="false"
+    [resizable]="false"
+    styleClass="custom-user-modal"
+    [style]="{ width: '650px', maxWidth: '95vw' }"
+  >
+    <!-- Header personalizado -->
+    <ng-template pTemplate="header">
+      <div class="custom-modal-header">
+        <div class="custom-modal-header-content">
+          <div class="custom-modal-icon">
+            <i class="pi pi-user-plus"></i>
+          </div>
+          <div class="custom-modal-title-section">
+            <h3 class="custom-modal-title">
+              {{ isEdit ? 'Update User' : 'Add New User' }}
+            </h3>
+            <p class="custom-modal-subtitle">
+              {{ isEdit
+                ? 'Modify the selected user’s details below'
+                : 'Fill in the form to add a new user' }}
+            </p>
+          </div>
+        </div>
+        <button class="custom-modal-close-btn" (click)="hideDialog()">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+    </ng-template>
+
+    <!-- Contenido del formulario -->
+    <div class="custom-modal-content">
+      <form [formGroup]="userForm" class="custom-user-form">
+        <!-- Fila 1: First Name & Last Name -->
+        <div class="custom-form-row">
+          <div class="custom-form-field">
+            <label for="name" class="custom-field-label">
+              <span>First Name</span>
+              <span class="custom-required">*</span>
+            </label>
+            <div class="custom-input-wrapper">
+              <i class="pi pi-user custom-input-icon"></i>
+              <input
+                id="name"
+                type="text"
+                pInputText
+                formControlName="name"
+                placeholder="Enter first name"
+                class="custom-input"
+                [class.custom-input-error]="
+                  f['name'].invalid && (f['name'].dirty || f['name'].touched)
+                "
+              />
+            </div>
+            <div
+              class="custom-field-error"
+              *ngIf="f['name'].invalid && (f['name'].dirty || f['name'].touched)"
+            >
+              <i class="pi pi-exclamation-triangle"></i>
+              <span>First name is required</span>
+            </div>
+          </div>
+
+          <div class="custom-form-field">
+            <label for="lastName" class="custom-field-label">
+              <span>Last Name</span>
+              <span class="custom-required">*</span>
+            </label>
+            <div class="custom-input-wrapper">
+              <i class="pi pi-user custom-input-icon"></i>
+              <input
+                id="lastName"
+                type="text"
+                pInputText
+                formControlName="lastName"
+                placeholder="Enter last name"
+                class="custom-input"
+                [class.custom-input-error]="
+                  f['lastName'].invalid && (f['lastName'].dirty || f['lastName'].touched)
+                "
+              />
+            </div>
+            <div
+              class="custom-field-error"
+              *ngIf="f['lastName'].invalid && (f['lastName'].dirty || f['lastName'].touched)"
+            >
+              <i class="pi pi-exclamation-triangle"></i>
+              <span>Last name is required</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila 2: Email -->
+        <div class="custom-form-field custom-full-width">
+          <label for="email" class="custom-field-label">
+            <span>Email Address</span>
+            <span class="custom-required">*</span>
+          </label>
+          <div class="custom-input-wrapper">
+            <i class="pi pi-envelope custom-input-icon"></i>
+            <input
+              id="email"
+              type="email"
+              pInputText
+              formControlName="email"
+              placeholder="usuario@dominio.com"
+              class="custom-input"
+              [class.custom-input-error]="
+                f['email'].invalid && (f['email'].dirty || f['email'].touched)
+              "
+            />
+          </div>
+          <div
+            class="custom-field-error"
+            *ngIf="f['email'].invalid && (f['email'].dirty || f['email'].touched)"
+          >
+            <i class="pi pi-exclamation-triangle"></i>
+            <span *ngIf="f['email'].errors?.['required']">Email is required</span>
+            <span *ngIf="f['email'].errors?.['pattern']"
+              >Please enter a valid email (e.g., user&#64;domain.com)</span
+            >
+          </div>
+        </div>
+
+        <!-- Fila 3: Phone Number & Position -->
+        <div class="custom-form-row">
+          <div class="custom-form-field">
+            <label for="phoneNumber" class="custom-field-label">
+              <span>Phone Number</span>
+              <span class="custom-required">*</span>
+            </label>
+            <div class="custom-input-wrapper">
+              <i class="pi pi-phone custom-input-icon"></i>
+              <input
+                id="phoneNumber"
+                type="text"
+                pInputText
+                formControlName="phoneNumber"
+                maxlength="10"
+                placeholder="10 digits"
+                class="custom-input"
+                [class.custom-input-error]="
+                  f['phoneNumber'].invalid &&
+                  (f['phoneNumber'].dirty || f['phoneNumber'].touched)
+                "
+              />
+            </div>
+            <div
+              class="custom-field-error"
+              *ngIf="
+                f['phoneNumber'].invalid &&
+                (f['phoneNumber'].dirty || f['phoneNumber'].touched)
+              "
+            >
+              <i class="pi pi-exclamation-triangle"></i>
+              <span *ngIf="f['phoneNumber'].errors?.['required']"
+                >Phone number is required</span
+              >
+              <span *ngIf="f['phoneNumber'].errors?.['pattern']"
+                >Must contain exactly 10 numeric digits</span
+              >
+            </div>
+          </div>
+
+          <div class="custom-form-field">
+            <label for="jobTitle" class="custom-field-label">
+              <span>Position</span>
+              <span class="custom-required">*</span>
+            </label>
+            <div class="custom-input-wrapper">
+              <i class="pi pi-briefcase custom-input-icon"></i>
+              <input
+                id="jobTitle"
+                type="text"
+                pInputText
+                formControlName="jobTitle"
+                placeholder="Enter position"
+                class="custom-input"
+                [class.custom-input-error]="
+                  f['jobTitle'].invalid && (f['jobTitle'].dirty || f['jobTitle'].touched)
+                "
+              />
+            </div>
+            <div
+              class="custom-field-error"
+              *ngIf="f['jobTitle'].invalid && (f['jobTitle'].dirty || f['jobTitle'].touched)"
+            >
+              <i class="pi pi-exclamation-triangle"></i>
+              <span>Position is required</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila 4: Firebase UID -->
+        <div class="custom-form-field custom-full-width">
+          <label for="firebase_uid" class="custom-field-label">
+            <span>Firebase UID</span>
+            <span class="custom-required">*</span>
+          </label>
+          <div class="custom-input-wrapper">
+            <i class="pi pi-key custom-input-icon"></i>
+            <input
+              id="firebase_uid"
+              type="text"
+              pInputText
+              formControlName="firebase_uid"
+              placeholder="Enter Firebase UID"
+              class="custom-input"
+              [class.custom-input-error]="
+                f['firebase_uid'].invalid &&
+                (f['firebase_uid'].dirty || f['firebase_uid'].touched)
+              "
+            />
+          </div>
+          <div
+            class="custom-field-error"
+            *ngIf="
+              f['firebase_uid'].invalid &&
+              (f['firebase_uid'].dirty || f['firebase_uid'].touched)
+            "
+          >
+            <i class="pi pi-exclamation-triangle"></i>
+            <span>Firebase UID is required</span>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer personalizado -->
+    <ng-template pTemplate="footer">
+      <div class="custom-modal-footer">
+        <button
+          pButton
+          label="Cancel"
+          icon="pi pi-times"
+          (click)="hideDialog()"
+          class="p-button-outlined custom-cancel-btn"
+        ></button>
+        <button
+          pButton
+          [label]="isEdit ? 'Update' : 'Save'"
+          icon="pi pi-check"
+          (click)="saveUser()"
+          [disabled]="userForm.invalid || isLoading"
+          [loading]="isLoading"
+          class="custom-save-btn"
+        ></button>
+      </div>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Toast para notificaciones -->
+  <p-toast position="top-right" [life]="5000"></p-toast>
 
   <!-- Desktop Table View -->
   <div class="users-table desktop-view">
@@ -42,149 +305,225 @@
     </div>
 
     <div class="table-body">
-      <div class="table-row" *ngFor="let user of users; let i = index">
-        <div class="col-user">
-          <p-avatar
-            [image]="user.avatar"
-            shape="circle"
-            size="normal">
-          </p-avatar>
-          <div class="user-info">
-            <div class="user-name">{{ user.name }}</div>
-            <div class="user-id">{{ user.id }}</div>
+      <ng-container *ngIf="users.length > 0; else noDataDesktop">
+        <div class="table-row" *ngFor="let user of users; let i = index">
+          <div class="col-user">
+            <p-avatar
+              [image]="user.avatar"
+              shape="circle"
+              size="normal"
+            ></p-avatar>
+            <div class="user-info">
+              <div class="user-name">{{ user.Name }}</div>
+              <div class="user-id">#{{ i + 1 }}</div>
+            </div>
+          </div>
+          <div class="col-contact">
+            <div class="contact-email">{{ user.Email }}</div>
+            <div class="contact-phone">{{ user.Phone }}</div>
+          </div>
+          <div class="col-modification">{{ user.lastModification }}</div>
+          <div class="col-status">
+            <span class="status-badge active">
+              <i class="pi pi-circle-fill"></i>
+              Active
+            </span>
+          </div>
+          <div class="col-registration">{{ user.registrationDate }}</div>
+          <div class="col-actions">
+            <p-button
+              icon="pi pi-ellipsis-h"
+              [text]="true"
+              styleClass="action-button"
+              (click)="op.toggle($event)"
+              #actionBtn
+            ></p-button>
+            <p-overlayPanel #op styleClass="user-actions-menu" appendTo="body">
+              <div class="actions-menu-header">
+                <span class="menu-title">Acciones para {{ user.name }}</span>
+                <button class="close-btn" (click)="op.hide()">
+                  <i class="pi pi-times"></i>
+                </button>
+              </div>
+              <div class="actions-menu-content">
+                <button
+                  class="action-item update-action"
+                  (click)="updateUser(user); op.hide()"
+                >
+                  <i class="pi pi-pencil"></i>
+                  <span>Actualizar</span>
+                </button>
+                <button
+                  class="action-item delete-action"
+                  (click)="deleteUser(user); op.hide()"
+                >
+                  <i class="pi pi-trash"></i>
+                  <span>Eliminar</span>
+                </button>
+                <button
+                  class="action-item view-action"
+                  (click)="viewSheet(user); op.hide()"
+                >
+                  <i class="pi pi-eye"></i>
+                  <span>Ver Hoja</span>
+                </button>
+                <button
+                  class="action-item deactivate-action"
+                  (click)="deactivateSheet(user); op.hide()"
+                >
+                  <i class="pi pi-ban"></i>
+                  <span>Desactivar Hoja</span>
+                </button>
+              </div>
+            </p-overlayPanel>
           </div>
         </div>
-        <div class="col-contact">
-          <div class="contact-email">{{ user.email }}</div>
-          <div class="contact-phone">{{ user.phone }}</div>
-        </div>
-        <div class="col-modification">{{ user.lastModification }}</div>
-        <div class="col-status">
-          <span class="status-badge" [ngClass]="user.status.toLowerCase()">
-            <i class="pi pi-circle-fill"></i>
-            {{ user.status }}
-          </span>
-        </div>
-        <div class="col-registration">{{ user.registrationDate }}</div>
-        <div class="col-actions">
-          <p-button
-            icon="pi pi-ellipsis-h"
-            [text]="true"
-            styleClass="action-button"
-            (click)="op.toggle($event)"
-            #actionBtn>
-          </p-button>
-
-          <!-- Cambio clave: agregar appendTo="body" para que el overlay se renderice en el body -->
-          <p-overlayPanel #op styleClass="user-actions-menu" appendTo="body">
-            <div class="actions-menu-header">
-              <span class="menu-title">Acciones para {{ user.name }}</span>
-              <button class="close-btn" (click)="op.hide()">
-                <i class="pi pi-times"></i>
-              </button>
+      </ng-container>
+      <ng-template #noDataDesktop>
+        <div class="table-row empty-row">
+          <div class="empty-state-desktop-content" style="grid-column: 1 / -1;">
+            <div class="empty-state-icon">
+              <i class="pi pi-users"></i>
             </div>
-            <div class="actions-menu-content">
-              <button class="action-item update-action" (click)="updateUser(user); op.hide()">
-                <i class="pi pi-pencil"></i>
-                <span>Actualizar</span>
-              </button>
-              <button class="action-item delete-action" (click)="deleteUser(user); op.hide()">
-                <i class="pi pi-trash"></i>
-                <span>Eliminar</span>
-              </button>
-              <button class="action-item view-action" (click)="viewSheet(user); op.hide()">
-                <i class="pi pi-eye"></i>
-                <span>Ver Hoja</span>
-              </button>
-              <button class="action-item deactivate-action" (click)="deactivateSheet(user); op.hide()">
-                <i class="pi pi-ban"></i>
-                <span>Desactivar Hoja</span>
-              </button>
+            <div class="empty-state-text">
+              <h3 class="empty-state-title">No se encontraron usuarios</h3>
+              <p class="empty-state-description">
+                No hay usuarios que coincidan con tu búsqueda. Intenta con otros términos o agrega un nuevo usuario.
+              </p>
             </div>
-          </p-overlayPanel>
+            <div class="empty-state-actions">
+              <p-button
+                label="Agregar Usuario"
+                icon="pi pi-user-plus"
+                styleClass="add-first-user-btn"
+                (click)="openNewUser()">
+              </p-button>
+            </div>
+          </div>
         </div>
-      </div>
+      </ng-template>
     </div>
   </div>
 
   <!-- Mobile Cards View -->
   <div class="users-cards mobile-view">
-    <div class="user-card" *ngFor="let user of users; let i = index">
-      <div class="card-header">
-        <div class="user-main-info">
-          <p-avatar
-            [image]="user.avatar"
-            shape="circle"
-            size="large">
-          </p-avatar>
-          <div class="user-details">
-            <h3 class="user-name">{{ user.name }}</h3>
-            <span class="user-id">{{ user.id }}</span>
+    <ng-container *ngIf="users.length > 0; else noDataMobile">
+      <div class="user-card" *ngFor="let user of users; let i = index">
+        <div class="card-header">
+          <div class="user-main-info">
+            <p-avatar
+              [image]="user.avatar"
+              shape="circle"
+              size="large">
+            </p-avatar>
+            <div class="user-details">
+              <h3 class="user-name">{{ user.name }}</h3>
+              <span class="user-id">#{{ i + 1 }}</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <span class="status-badge" [ngClass]="user.status.toLowerCase()">
+              <i class="pi pi-circle-fill"></i>
+              {{ user.status }}
+            </span>
+            <p-button
+              icon="pi pi-ellipsis-h"
+              [text]="true"
+              styleClass="action-button"
+              (click)="mobileOp.toggle($event)"
+              #mobileActionBtn
+            >
+            </p-button>
+
+            <p-overlayPanel
+              #mobileOp
+              styleClass="user-actions-menu mobile-menu"
+              appendTo="body"
+            >
+              <div class="actions-menu-header">
+                <span class="menu-title">Acciones para {{ user.name }}</span>
+                <button class="close-btn" (click)="mobileOp.hide()">
+                  <i class="pi pi-times"></i>
+                </button>
+              </div>
+              <div class="actions-menu-content">
+                <button
+                  class="action-item update-action"
+                  (click)="updateUser(user); mobileOp.hide()"
+                >
+                  <i class="pi pi-pencil"></i>
+                  <span>Actualizar</span>
+                </button>
+                <button
+                  class="action-item delete-action"
+                  (click)="deleteUser(user); mobileOp.hide()"
+                >
+                  <i class="pi pi-trash"></i>
+                  <span>Eliminar</span>
+                </button>
+                <button
+                  class="action-item view-action"
+                  (click)="viewSheet(user); mobileOp.hide()"
+                >
+                  <i class="pi pi-eye"></i>
+                  <span>Ver Hoja</span>
+                </button>
+                <button
+                  class="action-item deactivate-action"
+                  (click)="deactivateSheet(user); mobileOp.hide()"
+                >
+                  <i class="pi pi-ban"></i>
+                  <span>Desactivar Hoja</span>
+                </button>
+              </div>
+            </p-overlayPanel>
           </div>
         </div>
-        <div class="card-actions">
-          <span class="status-badge" [ngClass]="user.status.toLowerCase()">
-            <i class="pi pi-circle-fill"></i>
-            {{ user.status }}
-          </span>
-          <p-button
-            icon="pi pi-ellipsis-h"
-            [text]="true"
-            styleClass="action-button"
-            (click)="mobileOp.toggle($event)"
-            #mobileActionBtn>
-          </p-button>
 
-          <!-- Cambio clave: agregar appendTo="body" para que el overlay se renderice en el body -->
-          <p-overlayPanel #mobileOp styleClass="user-actions-menu mobile-menu" appendTo="body">
-            <div class="actions-menu-header">
-              <span class="menu-title">Acciones para {{ user.name }}</span>
-              <button class="close-btn" (click)="mobileOp.hide()">
-                <i class="pi pi-times"></i>
-              </button>
+        <div class="card-content">
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Email</label>
+              <span class="value">{{ user.email }}</span>
             </div>
-            <div class="actions-menu-content">
-              <button class="action-item update-action" (click)="updateUser(user); mobileOp.hide()">
-                <i class="pi pi-pencil"></i>
-                <span>Actualizar</span>
-              </button>
-              <button class="action-item delete-action" (click)="deleteUser(user); mobileOp.hide()">
-                <i class="pi pi-trash"></i>
-                <span>Eliminar</span>
-              </button>
-              <button class="action-item view-action" (click)="viewSheet(user); mobileOp.hide()">
-                <i class="pi pi-eye"></i>
-                <span>Ver Hoja</span>
-              </button>
-              <button class="action-item deactivate-action" (click)="deactivateSheet(user); mobileOp.hide()">
-                <i class="pi pi-ban"></i>
-                <span>Desactivar Hoja</span>
-              </button>
+            <div class="info-item">
+              <label>Phone</label>
+              <span class="value">{{ user.phone }}</span>
             </div>
-          </p-overlayPanel>
+            <div class="info-item">
+              <label>Last Modified</label>
+              <span class="value">{{ user.lastModification }}</span>
+            </div>
+            <div class="info-item">
+              <label>Registration Date</label>
+              <span class="value">{{ user.registrationDate }}</span>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="card-content">
-        <div class="info-grid">
-          <div class="info-item">
-            <label>Email</label>
-            <span class="value">{{ user.email }}</span>
+    </ng-container>
+    <ng-template #noDataMobile>
+      <div class="no-users-mobile">
+        <div class="empty-state-mobile-content">
+          <div class="empty-state-icon">
+            <i class="pi pi-users"></i>
           </div>
-          <div class="info-item">
-            <label>Phone</label>
-            <span class="value">{{ user.phone }}</span>
+          <div class="empty-state-text">
+            <h3 class="empty-state-title">No se encontraron usuarios</h3>
+            <p class="empty-state-description">
+              No hay usuarios que coincidan con tu búsqueda. Intenta con otros términos.
+            </p>
           </div>
-          <div class="info-item">
-            <label>Last Modified</label>
-            <span class="value">{{ user.lastModification }}</span>
-          </div>
-          <div class="info-item">
-            <label>Registration Date</label>
-            <span class="value">{{ user.registrationDate }}</span>
+          <div class="empty-state-actions">
+            <p-button
+              label="Agregar Usuario"
+              icon="pi pi-user-plus"
+              styleClass="add-first-user-btn"
+              (click)="openNewUser()">
+            </p-button>
           </div>
         </div>
       </div>
-    </div>
+    </ng-template>
   </div>
 </section>

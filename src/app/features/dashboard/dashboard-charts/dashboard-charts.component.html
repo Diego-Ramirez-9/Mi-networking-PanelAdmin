@@ -1,39 +1,81 @@
 <section class="charts-section">
-    <div class="chart-container">
-      <div class="chart-header">
+  <!-- Users Activity Chart -->
+  <div class="chart-container">
+    <div class="chart-header">
+      <div class="chart-title-section">
         <h3>Users Activity</h3>
+        <p class="chart-subtitle">Total and active users over time</p>
+      </div>
+      <div class="chart-controls">
         <p-button
           label="Monthly"
           [outlined]="true"
           size="small"
-          styleClass="chart-button">
+          styleClass="chart-button"
+          (click)="changeUsersPeriod('monthly')">
         </p-button>
       </div>
-      <div class="chart-placeholder">
-        <div class="chart-content">
-          <i class="pi pi-arrow-right"></i>
-          <span>Chart Here</span>
-          <i class="pi pi-arrow-left"></i>
-        </div>
+    </div>
+    <div class="chart-wrapper">
+      <canvas #usersChart class="chart-canvas"></canvas>
+    </div>
+    <div class="chart-stats">
+      <div class="stat-item">
+        <span class="stat-label">Total Users</span>
+        <span class="stat-value">{{ usersData.total.toLocaleString() }}</span>
+        <span class="stat-change positive">
+          <i class="pi pi-arrow-up"></i>
+          +{{ usersData.monthlyGrowth }}%
+        </span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Active Users</span>
+        <span class="stat-value">{{ usersData.active.toLocaleString() }}</span>
+        <span class="stat-change positive">
+          <i class="pi pi-arrow-up"></i>
+          {{ ((usersData.active / usersData.total) * 100).toFixed(1) }}%
+        </span>
       </div>
     </div>
+  </div>
 
-    <div class="chart-container">
-      <div class="chart-header">
-        <h3>Revenue Trend</h3>
+  <!-- Growth Rate Chart -->
+  <div class="chart-container">
+    <div class="chart-header">
+      <div class="chart-title-section">
+        <h3>Growth Rate</h3>
+        <p class="chart-subtitle">Monthly growth percentage</p>
+      </div>
+      <div class="chart-controls">
         <p-button
           label="Monthly"
           [outlined]="true"
           size="small"
-          styleClass="chart-button">
+          styleClass="chart-button"
+          (click)="changeGrowthPeriod('monthly')">
         </p-button>
       </div>
-      <div class="chart-placeholder">
-        <div class="chart-content">
-          <i class="pi pi-arrow-right"></i>
-          <span>Chart Here</span>
-          <i class="pi pi-arrow-left"></i>
-        </div>
+    </div>
+    <div class="chart-wrapper">
+      <canvas #growthChart class="chart-canvas"></canvas>
+    </div>
+    <div class="chart-stats">
+      <div class="stat-item">
+        <span class="stat-label">Current Growth</span>
+        <span class="stat-value">{{ usersData.growth }}%</span>
+        <span class="stat-change positive">
+          <i class="pi pi-arrow-up"></i>
+          +2.3% vs last month
+        </span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Avg. Growth</span>
+        <span class="stat-value">{{ averageGrowth }}%</span>
+        <span class="stat-change positive">
+          <i class="pi pi-arrow-up"></i>
+          Last 6 months
+        </span>
       </div>
     </div>
-  </section>
+  </div>
+</section>
